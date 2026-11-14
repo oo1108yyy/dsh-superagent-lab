@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>我的 DSH 学习打卡页</title>
+<style>
+:root{font-family:system-ui,"Microsoft YaHei",sans-serif;color:#1b2b26;background:#eef3ef}
+*{box-sizing:border-box}
+body{margin:0;padding:40px 20px}
+main{max-width:720px;margin:auto}
+h1{font-size:clamp(24px,4vw,34px);letter-spacing:-.02em;margin:0}
+.sub{color:#62746c;margin:8px 0 0;line-height:1.7;font-size:14px}
+.card{background:#fff;border:1px solid #d9e3dc;border-radius:18px;padding:26px;margin-top:22px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+label.name{display:flex;gap:10px;align-items:center;font-weight:600;white-space:nowrap}
+#name{font:inherit;font-weight:400;border:1px solid #b9cac0;border-radius:10px;padding:8px 10px;width:200px;min-width:0}
+#name:invalid{border-color:#c0523c}
+.hint{color:#7b8b83;font-size:12px;margin:10px 0 0}
+h2{font-size:16px;margin:0 0 6px}
+ul{list-style:none;margin:0;padding:0}
+.task{display:flex;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid #edf1ee;cursor:pointer}
+.task:last-child{border-bottom:0}
+.task input{width:20px;height:20px;accent-color:#20694f;flex-shrink:0;cursor:pointer}
+.summary{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;margin:6px 0 12px}
+#count{font-size:15px}
+#percent{font-size:40px;font-weight:650;letter-spacing:-.03em;color:#1d5b45}
+progress{width:100%;height:10px;border:0;border-radius:99px;overflow:hidden;background:#dfe8e2}
+progress::-webkit-progress-bar{background:#dfe8e2}
+progress::-webkit-progress-value{background:#2f8a63;border-radius:99px}
+progress::-moz-progress-bar{background:#2f8a63;border-radius:99px}
+#reset{font:inherit;cursor:pointer;border:1px solid #829b8e;background:#fff;color:#1d5b45;border-radius:10px;padding:10px 18px;margin-top:16px}
+#reset:hover{background:#f0f6f2}
+:focus-visible{outline:3px solid #d59942;outline-offset:3px}
+@media(max-width:520px){body{padding:24px 14px}.card{padding:20px}#name{width:100%}}
+</style>
+</head>
+<body>
+<main>
+  <h1>我的 DSH 学习打卡页</h1>
+  <p class="sub">勾选今天完成的学习项，进度会实时更新。</p>
+
+  <section class="card" aria-label="学习者">
+    <label class="name" for="name">姓名
+      <input id="name" type="text" value="黄依敏" placeholder="填写你的姓名" maxlength="40" autocomplete="off" required>
+    </label>
+    <p class="hint" id="name-hint" aria-live="polite">本次打卡：黄依敏</p>
+  </section>
+
+  <section class="card" aria-label="学习项">
+    <h2>学习项</h2>
+    <ul>
+      <li><label class="task"><input type="checkbox" name="task"><span>已安装 DSH</span></label></li>
+      <li><label class="task"><input type="checkbox" name="task"><span>已接入 Super-agent</span></label></li>
+      <li><label class="task"><input type="checkbox" name="task"><span>已完成第一个案例</span></label></li>
+    </ul>
+  </section>
+
+  <section class="card" aria-label="完成进度">
+    <div class="summary">
+      <span id="count" aria-live="polite">已完成 0 / 3 项</span>
+      <span id="percent" data-percent="0">0%</span>
+    </div>
+    <progress id="progress" max="3" value="0" aria-label="学习进度"></progress>
+    <div><button id="reset" type="button">重置</button></div>
+  </section>
+</main>
+<script>
+(function () {
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('input[type=checkbox][name=task]'));
+  var total = boxes.length;
+  var countEl = document.getElementById('count');
+  var percentEl = document.getElementById('percent');
+  var progressEl = document.getElementById('progress');
+  var resetEl = document.getElementById('reset');
+  var nameEl = document.getElementById('name');
+  var nameHint = document.getElementById('name-hint');
+
+  function update() {
+    var done = boxes.filter(function (box) { return box.checked; }).length;
+    var percent = total ? Math.round((done / total) * 100) : 0;
+    countEl.textContent = '已完成 ' + done + ' / ' + total + ' 项';
+    percentEl.textContent = percent + '%';
+    percentEl.setAttribute('data-percent', String(percent));
+    progressEl.value = done;
+    progressEl.setAttribute('aria-valuetext', done + ' / ' + total);
+  }
+
+  function updateNameHint() {
+    var name = nameEl.value.trim();
+    nameHint.textContent = name ? '本次打卡：' + name : '未填写姓名。';
+  }
+
+  boxes.forEach(function (box) { box.addEventListener('change', update); });
+  nameEl.addEventListener('input', updateNameHint);
+  resetEl.addEventListener('click', function () {
+    boxes.forEach(function (box) { box.checked = false; });
+    update();
+    resetEl.blur();
+  });
+
+  update();
+  updateNameHint();
+})();
+</script>
+</body>
+</html>

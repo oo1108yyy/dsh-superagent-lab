@@ -1,0 +1,28 @@
+{
+  "revision": "before: origin/main b053aae (README.md only, no checklist page)",
+  "baseCommit": "b053aae",
+  "viewport": "900x900",
+  "theme": "light",
+  "captures": [
+    {
+      "what": "GitHub repository tree at baseline commit",
+      "url": "https://github.com/oo1108yyy/dsh-superagent-lab/tree/b053aae",
+      "treeText": [
+        "Skip to content"
+      ]
+    },
+    {
+      "what": "Only tracked UI source at baseline commit (README.md)",
+      "url": "file:///C:/fancloud/dsh-superagent-lab/state/work/learning-checklist-page-75bff0e5e8b8/evidence/baseline-src/README.md",
+      "screenshot": "evidence/before-v1-readme.png",
+      "controls": {
+        "checkboxes": 0,
+        "count": false,
+        "percent": false,
+        "reset": false,
+        "editableName": false,
+        "title": ""
+      }
+    }
+  ]
+}

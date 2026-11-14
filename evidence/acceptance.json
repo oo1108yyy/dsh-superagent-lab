@@ -1,0 +1,55 @@
+{
+  "at": "2026-11-14T04:43:08.752Z",
+  "method": "jsdom: load index.html, drive real checkbox/reset/input controls",
+  "results": [
+    {
+      "label": "初始",
+      "count": "已完成 0 / 3 项",
+      "percent": "0%",
+      "progress": 0,
+      "passed": true
+    },
+    {
+      "label": "勾选一项",
+      "count": "已完成 1 / 3 项",
+      "percent": "33%",
+      "progress": 1,
+      "passed": true
+    },
+    {
+      "label": "全选",
+      "count": "已完成 3 / 3 项",
+      "percent": "100%",
+      "progress": 3,
+      "passed": true
+    },
+    {
+      "label": "取消一项",
+      "count": "已完成 2 / 3 项",
+      "percent": "67%",
+      "progress": 2,
+      "passed": true
+    },
+    {
+      "label": "重置",
+      "count": "已完成 0 / 3 项",
+      "percent": "0%",
+      "progress": 0,
+      "passed": true
+    },
+    {
+      "label": "重置后再勾选一项",
+      "count": "已完成 1 / 3 项",
+      "percent": "33%",
+      "progress": 1,
+      "passed": true
+    },
+    {
+      "label": "再次重置",
+      "count": "已完成 0 / 3 项",
+      "percent": "0%",
+      "progress": 0,
+      "passed": true
+    }
+  ]
+}
