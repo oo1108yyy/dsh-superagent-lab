@@ -1,0 +1,4 @@
+.verify-head/
+pr-body.md
+probe-render.mjs
+evidence/image-inspection.json

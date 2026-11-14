@@ -26,3 +26,7 @@
 ### 验证方式
 
 页面为单文件纯前端实现，可用任意静态服务器或无头浏览器加载 `index.html`，断言 `#count`、`#percent`、`progress` 的取值覆盖上表全部场景；勾选与重置均通过页面上的真实控件触发。
+
+本次实操同时保留了 900×900 桌面和 420×900 移动端截图及状态记录，见 `evidence/`。基线提交只有 README，没有旧版页面；基线 README 截图不代表旧版 UI。
+
+附带脚本是本机实操辅助工具，不是页面运行依赖：`verify.mjs` 使用 Node.js 和本机 `C:/fancloud/dsh-superagent-lab/prototype` 中的 jsdom；截图脚本使用 Windows 已安装的 Microsoft Edge。换机器复验时需先调整脚本中的依赖和浏览器路径。`inspect-image.mjs` 的像素统计只检测空白或损坏图片，不能代替视觉审查。

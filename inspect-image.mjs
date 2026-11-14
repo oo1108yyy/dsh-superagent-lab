@@ -1,15 +1,22 @@
-// Verify evidence PNGs without human eyes. Serves the evidence directory over
+// Verify evidence PNGs without human eyes. Serves the given directory over
 // http://127.0.0.1:<port>, loads each PNG in headless Edge, decodes it into a canvas
 // and reports dimensions plus pixel statistics, so blank, corrupt or partially
 // rendered captures are detectable.
+//
+// Usage: node inspect-image.mjs <evidenceDir> <file.png> [file.png ...]
+//        (file names are resolved inside <evidenceDir>)
 import { spawn } from 'node:child_process';
-import { readFileSync, existsSync, mkdirSync, statSync } from 'node:fs';
+import { readFileSync, existsSync, mkdirSync, statSync, writeFileSync } from 'node:fs';
 import net from 'node:net';
 import http from 'node:http';
 import path from 'node:path';
 
 const [, , dirArg, ...files] = process.argv;
-const dir = path.resolve(dirArg || 'evidence');
+if (!dirArg || !existsSync(dirArg) || !statSync(dirArg).isDirectory()) {
+  console.error('usage: node inspect-image.mjs <evidenceDir> <file.png> [...]');
+  process.exit(2);
+}
+const dir = path.resolve(dirArg);
 const EDGE = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -54,7 +61,7 @@ await sleep(800);
 
 const out = [];
 for (const file of files) {
-  const url = `http://127.0.0.1:${sPort}/${encodeURIComponent(file)}`;
+  const url = `http://127.0.0.1:${sPort}/${encodeURIComponent(path.basename(file))}`;
   const expr = `(async () => {
     try {
       const res = await fetch(${JSON.stringify(url)});
@@ -86,3 +93,4 @@ for (const file of files) {
 }
 ws.close(); proc.kill(); server.close();
 console.log(JSON.stringify(out, null, 2));
+writeFileSync(path.join(dir, 'image-inspection.json'), JSON.stringify(out, null, 2));

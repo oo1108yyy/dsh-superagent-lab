@@ -6,7 +6,8 @@ import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 
-const [, , htmlPath, outPrefix, revisionLabel = ''] = process.argv;
+const [, , htmlPath, outPrefix, revisionLabel = '', viewportArg = '900x900', suffix = ''] = process.argv;
+const [vw, vh] = viewportArg.split('x').map(Number);
 const EDGE = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -61,7 +62,7 @@ const evaluate = async (expression) => {
 
 await send('Page.enable');
 await send('Runtime.enable');
-await send('Emulation.setDeviceMetricsOverride', { width: 900, height: 900, deviceScaleFactor: 1, mobile: false });
+await send('Emulation.setDeviceMetricsOverride', { width: vw, height: vh, deviceScaleFactor: 1, mobile: vw < 600 });
 await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'light' }] });
 
 const readout = () => evaluate(`(() => {
@@ -79,7 +80,7 @@ const readout = () => evaluate(`(() => {
 
 async function shot(name) {
   const { data } = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: true });
-  const file = `${outPrefix}-${name}.png`;
+  const file = `${outPrefix}-${name}${suffix}.png`;
   writeFileSync(file, Buffer.from(data, 'base64'));
   return file;
 }
@@ -88,7 +89,7 @@ const url = pathToFileURL(path.resolve(htmlPath)).href;
 await send('Page.navigate', { url });
 await sleep(1200);
 
-const report = { revision: revisionLabel, url, viewport: '900x900', theme: 'light', states: [] };
+const report = { revision: revisionLabel, url, viewport: viewportArg, theme: 'light', states: [] };
 
 const initial = await readout();
 report.states.push({ state: 'initial', ...initial, screenshot: await shot('initial') });
@@ -120,5 +121,6 @@ report.states.push({ state: 'after-reset', ...(await readout()), screenshot: awa
 
 ws.close();
 proc.kill();
-writeFileSync(`${outPrefix}-report.json`, JSON.stringify(report, null, 2));
+writeFileSync(`${outPrefix}-report${suffix}.json`, JSON.stringify(report, null, 2));
 console.log(JSON.stringify(report, null, 2));
+
