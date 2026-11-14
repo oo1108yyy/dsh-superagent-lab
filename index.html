@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>学习打卡</title>
+<title>我的 DSH 学习打卡页</title>
 <style>
 :root{font-family:system-ui,"Microsoft YaHei",sans-serif;color:#1b2b26;background:#eef3ef}
 *{box-sizing:border-box}
@@ -13,7 +13,7 @@ h1{font-size:clamp(24px,4vw,34px);letter-spacing:-.02em;margin:0}
 .sub{color:#62746c;margin:8px 0 0;line-height:1.7;font-size:14px}
 .card{background:#fff;border:1px solid #d9e3dc;border-radius:18px;padding:26px;margin-top:22px}
 .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-label.name{display:flex;gap:10px;align-items:center;font-weight:600}
+label.name{display:flex;gap:10px;align-items:center;font-weight:600;white-space:nowrap}
 #name{font:inherit;font-weight:400;border:1px solid #b9cac0;border-radius:10px;padding:8px 10px;width:200px;min-width:0}
 #name:invalid{border-color:#c0523c}
 .hint{color:#7b8b83;font-size:12px;margin:10px 0 0}
@@ -37,22 +37,22 @@ progress::-moz-progress-bar{background:#2f8a63;border-radius:99px}
 </head>
 <body>
 <main>
-  <h1>学习打卡</h1>
+  <h1>我的 DSH 学习打卡页</h1>
   <p class="sub">勾选今天完成的学习项，进度会实时更新。</p>
 
   <section class="card" aria-label="学习者">
     <label class="name" for="name">姓名
-      <input id="name" type="text" placeholder="填写你的姓名" maxlength="40" autocomplete="off" required>
+      <input id="name" type="text" value="黄依敏" placeholder="填写你的姓名" maxlength="40" autocomplete="off" required>
     </label>
-    <p class="hint" id="name-hint" aria-live="polite">未填写姓名。</p>
+    <p class="hint" id="name-hint" aria-live="polite">本次打卡：黄依敏</p>
   </section>
 
   <section class="card" aria-label="学习项">
     <h2>学习项</h2>
     <ul>
-      <li><label class="task"><input type="checkbox" name="task"><span>阅读学习材料</span></label></li>
-      <li><label class="task"><input type="checkbox" name="task"><span>动手完成练习</span></label></li>
-      <li><label class="task"><input type="checkbox" name="task"><span>复盘并记录笔记</span></label></li>
+      <li><label class="task"><input type="checkbox" name="task"><span>已安装 DSH</span></label></li>
+      <li><label class="task"><input type="checkbox" name="task"><span>已接入 Super-agent</span></label></li>
+      <li><label class="task"><input type="checkbox" name="task"><span>已完成第一个案例</span></label></li>
     </ul>
   </section>
 

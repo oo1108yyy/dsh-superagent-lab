@@ -25,6 +25,10 @@ function snapshot(label, n, p) {
 // 姓名可编辑
 const nameEl = d.querySelector('#name');
 assert.ok(nameEl, '姓名输入框存在');
+assert.equal(d.title, '我的 DSH 学习打卡页');
+assert.equal(d.querySelector('h1').textContent, '我的 DSH 学习打卡页');
+assert.equal(nameEl.value, '黄依敏');
+assert.deepEqual([...d.querySelectorAll('.task span')].map(e => e.textContent), ['已安装 DSH', '已接入 Super-agent', '已完成第一个案例']);
 nameEl.value = '张同学';
 nameEl.dispatchEvent(new dom.window.Event('input', { bubbles: true }));
 assert.equal(nameEl.value, '张同学');
