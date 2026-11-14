@@ -30,3 +30,11 @@
 本次实操同时保留了 900×900 桌面和 420×900 移动端截图及状态记录，见 `evidence/`。基线提交只有 README，没有旧版页面；基线 README 截图不代表旧版 UI。
 
 附带脚本是本机实操辅助工具，不是页面运行依赖：`verify.mjs` 使用 Node.js 和本机 `C:/fancloud/dsh-superagent-lab/prototype` 中的 jsdom；截图脚本使用 Windows 已安装的 Microsoft Edge。换机器复验时需先调整脚本中的依赖和浏览器路径。`inspect-image.mjs` 的像素统计只检测空白或损坏图片，不能代替视觉审查。
+
+### Windows 受限沙箱补验（2026-11-14）
+
+原 C:\fancloud 工作树存在沙箱初始化权限拒绝。保留该工作树，另将同一 PR 提交复制到用户自有目录 C:\Users\admin\dsh-superagent-workspaces\learning-checklist-page。该目录继承登录用户的完整权限，无需手工改 ACL 或启用完全权限。
+
+DSH 会话记录确认 preset/mode 均为 workspace-write。index.html、README.md、既有 evidence/acceptance.json 可写打开，以及根目录/evidence 的创建、读取、删除探针共五项全部通过；随后在同一受限模式执行 node verify.mjs，全部状态通过，实际更新报告。旧目录的权限未被重置，本结果仅证明新验收目录正常。
+
+面板截图：evidence/superagent-source.jpg；Ticket 授权详情：evidence/superagent-ticket.jpg；关联 Issue/PR 和编号：evidence/superagent-ticket-links-id.jpg。Ticket 的人工停止状态如实保留。面板“CI通过”为原型的显示；本仓库未配置 CI，不把此标记当成 CI 测试证明。
